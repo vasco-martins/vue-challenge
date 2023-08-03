@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.badge-success {
+  @apply inline-flex items-center px-3 py-0.5 rounded-full bg-green-500 text-white;
+}
+
+.badge-warning {
+  @apply inline-flex items-center px-3 py-0.5 rounded-full bg-yellow-500 text-white;
+}
