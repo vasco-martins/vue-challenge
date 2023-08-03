@@ -1060,5 +1060,5 @@ const columns: Array<AmortizationColumn> = [
 </script>
 
 <template>
-  <Table :data="amortizations" :columns="columns" :items-per-page="8" />
+  <Table :data="amortizations" :columns="columns" :items-per-page="12" />
 </template>
