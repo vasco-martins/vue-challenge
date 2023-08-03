@@ -1,5 +1,12 @@
 <script lang="ts">
 import { ref, reactive, computed } from 'vue'
+interface TableColumn {
+  key: string
+  name: string
+  sortable: boolean
+  sort?(data: any[], asc: boolean): any[]
+  render(column: string, item: any): any
+}
 
 export default {
   name: 'Table',
@@ -9,10 +16,9 @@ export default {
       required: true
     },
     columns: {
-      type: Array,
+      type: Array as () => TableColumn[],
       required: true
     },
-    pagination: Boolean,
     searchable: Boolean,
     defaultSorting: Boolean,
     itemsPerPage: {
@@ -42,7 +48,7 @@ export default {
       // If there is no field to sort, we can return state data
       if (!state.field) return state.data
 
-      const column = columnsData.value.find((col) => col.key === state.field)
+      const column: any = columnsData.value.find((col) => col.key === state.field)
       if (!column || !column.sortable) return state.data
       // We only sort if there is a column and the column is sortable
       return column.sort(state.data, state.dir === 'asc')
@@ -77,7 +83,7 @@ export default {
     }
 
     // Sort by default
-    props.columns?.map((columnSort) => {
+    props.columns?.map((columnSort: any) => {
       if (columnSort.defaultSorting) sort(columnSort)
     })
 
@@ -119,7 +125,7 @@ export default {
             :key="index"
             class="py-3 px-4 border-b border-gray-300"
             v-for="(column, indexColumn) in columnsData"
-            v-html="column.render(column, item)"
+            v-html="column.render(column.key, item)"
           ></td>
         </tr>
       </tbody>

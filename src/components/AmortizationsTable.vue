@@ -7,7 +7,7 @@ export interface AmortizationColumn {
   name: string
   sortable: boolean
   width?: string
-  render(column: string, item: any): string
+  render(column: string, item: any): string | HTMLElement
   sort?(data: any, asc: boolean): Array<any>
 }
 
@@ -1034,12 +1034,13 @@ const columns: Array<AmortizationColumn> = [
     key: 'schedule_date',
     name: 'Schedule Date',
     sortable: true,
-    sort(data, asc) {
-      return data.sort((a, b) =>
-        asc
-          ? new Date(a.schedule_date) - new Date(b.schedule_date)
-          : new Date(b.schedule_date) - new Date(a.schedule_date)
-      )
+    sort(data: any, asc: boolean): Array<any> {
+      return data.sort((a: any, b: any) => {
+        const dateA = new Date(a.schedule_date).getTime()
+        const dateB = new Date(b.schedule_date).getTime()
+
+        return asc ? dateA - dateB : dateB - dateA
+      })
     },
     render(column, item) {
       return new Date(item.schedule_date).toDateString()
@@ -1050,7 +1051,7 @@ const columns: Array<AmortizationColumn> = [
     name: 'Amount',
     sortable: true,
     sort(data, asc) {
-      return data.sort((a, b) => (asc ? a.amount - b.amount : b.amount - a.amount))
+      return data.sort((a: any, b: any) => (asc ? a.amount - b.amount : b.amount - a.amount))
     },
     render(column, item) {
       return item.amount / 100 + '€'
