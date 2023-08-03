@@ -76,6 +76,7 @@ export default {
       state.dir = state.dir === 'asc' ? 'desc' : 'asc'
     }
 
+    // Sort by default
     props.columns?.map((columnSort) => {
       if (columnSort.defaultSorting) sort(columnSort)
     })
